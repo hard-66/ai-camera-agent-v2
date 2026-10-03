@@ -69,6 +69,29 @@
       ],
       "affected_contract": ["Executor Adapter", "ExecutionEvent", "AgentState", "Execution Timing Adapter"],
       "integration_status": "WAITING"
+    },
+    {
+      "id": "JUDGE-001",
+      "category": "JUDGE",
+      "source_team": "Jev/判断组（第二个 Agent 负责人）",
+      "confirmed_value": [
+        "判断层位于 Feedback V2 之上：本地确定性 Feedback 是唯一安全底线，Judge 只做低频复核",
+        "四种唤醒时机：超出容差、接近容差（默认 0.7 倍容差阈值）、置信度下降、约 0.5 秒例行抽查；容差内一次都不唤醒",
+        "Judge 只能加码（CONTINUE/ADJUST → WARN/PAUSE），不能放行本地 PAUSE；查询消息只含画面数字与容差，无图像无硬件量",
+        "单飞 + 默认 1.2 秒超时；超时/错误/占线一律按本地决策继续并标记 is_reviewed=false（未经复核）",
+        "后端可插拔：TypeSafe Jev（官方 /v1/systemone）→ OpenAI 兼容 JSON 后端（如 DeepSeek）→ 无后端纯本地；结果带 backend 字段便于复盘",
+        "全部唤醒与结论写 JudgeReview 日志，export_jsonl 供镜头存档（A11）",
+        "真实调用已验证（见 real_jev_validation.md）：官方端点 api.typesafe.ai 直连 PASS，返回格式与实现逐字段一致；三问 demo 实测 PAUSE/0.88/1.01s",
+        "双后端并行委员会已真验证（CommitteeJudgeBackend + fuse_verdicts）：成员并行墙钟 1.75s、确定性取严融合（纯代码非第三个模型）、低置信丢弃、成员失败/超时降级、成员判断全量存档"
+      ],
+      "missing_information": [
+        "Observation 尚无 confidence 字段：APP_VISION 契约定稿时需补 0-100 置信度，否则 CONFIDENCE_DROP 触发不生效",
+        "Supervisor 尚未接入执行循环（核心冻结）：接入点（demo 循环或 App 服务层）需团队决定",
+        "AgentDecision 无 WARN 档：如需把 WARN 写进统一决策契约属核心修改，需团队批准",
+        "当前 Key 为预付额度制（用完即止不可充值），剩余额度需控制台人工查看；拍摄现场网络需复测直连稳定性"
+      ],
+      "affected_contract": ["JudgeQuery", "JudgeResult", "JudgeReview", "JudgeBackend Protocol", "JudgeSupervisor", "TypesafeJevBackend", "OpenAIJsonJudgeBackend"],
+      "integration_status": "PARTIAL"
     }
   ]
 }

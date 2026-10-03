@@ -1,8 +1,8 @@
 {
   "current_phase": "Integration - Team Contract Intake",
   "current_gate": "WAITING",
-  "total_tests_passed": 507,
-  "integration_tests_deselected": 10,
+  "total_tests_passed": 566,
+  "integration_tests_deselected": 13,
   "agent_1_status": "PASS",
   "agent_2_status": "PASS",
   "agent_3_status": "PASS",
@@ -11,8 +11,8 @@
   "hardware_integration_status": "WAITING",
   "app_vision_integration_status": "WAITING",
   "blocking_items": [],
-  "next_task": "Receive confirmed team payload/API examples, update Intake, then TDD only the required Adapter.",
-  "last_updated": "2026-10-03T11:49:34+08:00",
+  "next_task": "Receive confirmed team payload/API examples, update Intake, then TDD only the required Adapter; JUDGE layer (PARTIAL) awaits the wire-in point and the Observation confidence-field decision.",
+  "last_updated": "2026-10-03T14:30:04+08:00",
   "core_phases": [
     {
       "phase": "Phase 1",
@@ -136,7 +136,20 @@
     "APP_VISION": "WAITING",
     "REACHABILITY": "WAITING",
     "MOTION_COMPILER": "WAITING",
-    "EXECUTOR": "WAITING"
+    "EXECUTOR": "WAITING",
+    "JUDGE": "PARTIAL"
+  },
+  "jev_judge_status": "PARTIAL",
+  "jev_judge_evidence": {
+    "previous_offline_baseline_passed": 507,
+    "new_judge_tests_passed": 59,
+    "offline_total_passed": 566,
+    "integration_deselected": 13,
+    "exit_code": 0,
+    "command": ".venv/Scripts/python.exe -m pytest -q -W error",
+    "real_api_calls": 6,
+    "real_smoke_evidence": "real_jev_validation.md; typesafe_jev PAUSE/0.88/1.01s, openai_json (deepseek-flash) WARN/0.90/1.50s, and the parallel committee PAUSE/0.89/1.75s (fused from jev PAUSE + deepseek WARN, members archived)",
+    "scope": "Contracts, trigger evaluator, supervisor, both judge backends and the parallel committee are offline-tested and real-smoke-validated; the supervisor is not yet wired into the execution loop, and the Observation confidence field belongs to the APP_VISION contract"
   },
   "github_repository_url": "https://github.com/hard-66/ai-camera-agent-v2",
   "github_repository_visibility": "public",
